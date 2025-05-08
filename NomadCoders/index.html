@@ -6,105 +6,34 @@
   <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
   <script type="text/babel">
-    function MinutesToHours() {
-      const [amount, setAmount] = React.useState(0);
-      const [flipped, setFlipped] = React.useState(false);
-      const onChange = (event) => {
-        setAmount(event.target.value);
-      };
-      const reset = () => setAmount(0);
-      const onFlip = () => {
-        reset();
-        setFlipped((current) => !current);
-      };
+    function Btn({ text, fontSize = 12 }) {
+      console.log(text, "was rendered");
       return (
-        <div>
-          <div>
-            <label htmlFor="minutes">Minutes</label>
-            <input
-              value={flipped ? amount * 60 : amount}
-              id="minutes"
-              placeholder="Minutes"
-              type="number"
-              onChange={onChange}
-              disabled={flipped === true}
-            />
-          </div>
-          <div>
-            <label htmlFor="hours">Hours</label>
-            <input
-              value={flipped ? amount : Math.round(amount / 60)}
-              id="hours"
-              placeholder="Hours"
-              type="number"
-              disabled={!flipped}
-              onChange={onChange}
-            />
-          </div>
-          <button onClick={reset}>Reset</button>
-          <button onClick={onFlip}>Flipped</button>
-        </div>
+        <button
+          style={{
+            backgroundColor: "tomato", //배경
+            color: "white", //텍스트 색
+            padding: "10px 20px", //상하 여백 10px, 좌우 여백 20px
+            border: 0, //테두리 없앰
+            borderRadius: 10, //모서리 둥글게
+            fontSize,
+          }}
+        >
+          {text}
+        </button>
       );
     }
-    function KmToMiles() {
-      const [amount, setAmount] = React.useState(0);
-      const [flipped, setFlipped] = React.useState(false);
-      const onChange = (event) => {
-        setAmount(event.target.value);
-      };
-      const reset = () => setAmount(0);
-      const onFlip = () => {
-        reset();
-        setFlipped((current) => !current);
-      };
-      return (
-        <div>
-          <div>
-            <label htmlFor="km">Kilometers</label>
-            <input
-              value={flipped ? (amount * 1.609).toFixed(3) : amount}
-              id="km"
-              placeholder="Kilometers"
-              type="number"
-              onChange={onChange}
-              disabled={flipped === true}
-            />
-          </div>
-          <div>
-            <label htmlFor="mile">Miles</label>
-            <input
-              value={flipped ? amount : (amount/1.609).toFixed(3)}
-              id="mile"
-              placeholder="Miles"
-              type="number"
-              disabled={!flipped}
-              onChange={onChange}
-            />
-          </div>
-          <button onClick={reset}>Reset</button>
-          <button onClick={onFlip}>Flipped</button>
-        </div>
-      );
-    }
+    Btn.propTypes = {
+      text: PropTypes.string,
+      fontSize: PropTypes.number.isRequired,
+    };
     function App() {
-      const [index, setIndex] = React.useState("xx");
-      const onSelect = (event) => {
-        setIndex(event.target.value);
-      };
-      console.log("render w/", index);
       return (
         <div>
-          <h1>Super Converter</h1>
-          <select value={index} onChange={onSelect}>
-            <option value="xx">Select your units</option>
-            <option value="0">Minutes & Hours</option>
-            <option value="1">Km & Miles</option>
-          </select>
-          <hr />
-          {index === "xx" ? "Please select your units" : null}
-          {index === "0" ? <MinutesToHours /> : null}
-          {index === "1" ? <KmToMiles /> : null}
+          <Btn text="Save Changes" fontSize={18} />
+          <Btn text={"Continue"} />
         </div>
       );
     }
